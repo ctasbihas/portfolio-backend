@@ -1,5 +1,6 @@
 import cors from "cors";
 import express, { Request, Response } from "express";
+import { indexRoutes } from "./app/routes";
 
 const app = express();
 
@@ -23,11 +24,6 @@ app.get("/", (req: Request, res: Response) => {
 	});
 });
 
-app.use("/api/v1", (req, res) => {
-	res.json({
-		success: true,
-		message: "Portfolio API v1 - Ready to serve your portfolio data",
-	});
-});
+app.use("/api/v1", indexRoutes);
 
 export default app;

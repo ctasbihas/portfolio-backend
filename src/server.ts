@@ -2,16 +2,21 @@ import dotenv from "dotenv";
 import { Server } from "http";
 import mongoose from "mongoose";
 import app from "./app";
+import { seedOwnerUser } from "./app/utils/seedOwner";
 
 dotenv.config();
 
 let server: Server;
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 5000;
 
 const startServer = async () => {
 	try {
-		await mongoose.connect(process.env.MONGO_URI || "");
-		console.log("⚡ Portfolio connected to MongoDB at lightning speed!");
+		// Connect to database
+		await mongoose.connect(process.env.MONGODB_URI as string);
+		console.log("✅ Database connected successfully!");
+
+		// Seed owner user automatically
+		await seedOwnerUser();
 
 		server = app.listen(PORT, () => {
 			console.log(
@@ -21,8 +26,10 @@ const startServer = async () => {
 		});
 	} catch (error) {
 		console.error("❌ Portfolio server startup error:", error);
+		process.exit(1);
 	}
 };
+
 startServer();
 
 // Portfolio Graceful shutdown

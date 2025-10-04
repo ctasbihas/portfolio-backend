@@ -3,6 +3,7 @@ import { UserServices } from "./user.service";
 
 const createUser = (req: Request, res: Response) => {
 	const result = UserServices.createUser(req.body);
+
 	res.status(201).json({
 		success: true,
 		message: "User created successfully",

@@ -4,7 +4,7 @@ export interface IUser {
 	name: string;
 	email: string;
 	password: string;
-	role: "user" | "admin";
+	role: "regular" | "owner";
 }
 
 const userSchema = new Schema<IUser>(
@@ -24,16 +24,24 @@ const userSchema = new Schema<IUser>(
 		password: {
 			type: String,
 			required: true,
+			select: false,
 		},
 		role: {
 			type: String,
-			enum: ["user", "admin"],
-			default: "user",
+			enum: ["regular", "owner"],
+			default: "regular",
 		},
 	},
 	{
 		timestamps: true,
 	}
 );
+
+// Remove password from JSON output
+userSchema.methods.toJSON = function () {
+	const user = this.toObject();
+	delete user.password;
+	return user;
+};
 
 export const User = model<IUser>("User", userSchema);

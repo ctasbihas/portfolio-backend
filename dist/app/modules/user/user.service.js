@@ -73,7 +73,7 @@ const getUser = (id) => __awaiter(void 0, void 0, void 0, function* () {
 });
 const allUsers = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const users = yield user_model_1.User.find().select("-password");
+        const users = yield user_model_1.User.find();
         if (!users || users.length === 0) {
             return [];
         }

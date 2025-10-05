@@ -67,7 +67,7 @@ const getUser = async (id: string) => {
 
 const allUsers = async () => {
 	try {
-		const users = await User.find().select("-password");
+		const users = await User.find();
 
 		if (!users || users.length === 0) {
 			return [];
